@@ -1,0 +1,17 @@
+/* //Banner CSS */
+
+/* Ensure you are using hero-section in App.css */
+.hero-section {
+  background-image: url('./assets/images/banner.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 50vh; /* Full viewport height */
+  color: #FFFFFF; /* Text color for visibility */
+  width: 100%;
+  align-items: left;
+}
+.text{
+  text-align: center;
+  padding-top: 70px;
+
+}
