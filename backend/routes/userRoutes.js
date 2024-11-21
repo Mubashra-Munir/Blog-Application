@@ -1,8 +1,13 @@
 // Importing necessary dependencies
 const express = require('express'); // Express.js framework for routing
 const { registerUser, loginUser } = require('../controllers/userController'); // Importing the controller functions for handling user registration and login
+const { getPosts } = require('../controllers/postController');
 const router = express.Router(); // Creating a new router instance to handle specific routes
+router.get("/test", (req, res) => {
+    res.send("hello")
+})
 
+router.get("/get-posts", getPosts); 
 // Defining the route for user registration
 router.post('/register', registerUser); // POST request to /api/users/register triggers the registerUser function
 

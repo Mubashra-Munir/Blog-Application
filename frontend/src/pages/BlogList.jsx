@@ -52,26 +52,81 @@
 
 // export default BlogList;
 
-////////////////////////////////
+//////////////////////////////
+
+// import { useEffect, useState } from 'react';
+// import { getPosts } from '../api/postAPI';
+// import Banner from '../components/Banner';
+// import '../App.css';
+
+// const BlogList = () => {
+//   const [posts, setPosts] = useState([]);
+
+//   useEffect(() => {
+//     const fetchPosts = async () => {
+//       const { data } = await getPosts();
+//       setPosts(data);
+//     };
+
+
+
+//     fetchPosts();
+//   }, []);
+
+//   // Sort posts in ascending order based on the `createdAt` field
+//   const sortedPosts = [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+//   return (
+//     <>
+//       <Banner />
+//       <div className="container mt-5">
+//         <h2>Blog Posts</h2>
+//         <div className="row">
+//           {sortedPosts.map((post) => (
+//             <div className="col-md-4" key={post._id}>
+//               <div className="card mb-3">
+//                 <div className="card-body">
+//                   <h5 className="card-title">{post.title}</h5>
+//                   <p className="card-text">{post.content.substring(0, 100)}...</p>
+//                   <p className="text-muted">By {post.user.name}</p>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default BlogList;
+//////////////////////
 
 import { useEffect, useState } from 'react';
 import { getPosts } from '../api/postAPI';
 import Banner from '../components/Banner';
 import '../App.css';
+import axios from 'axios';
+//import { post } from '../../../backend/routes/userRoutes';
 
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const { data } = await getPosts();
-      setPosts(data);
+      await axios.get("http://localhost:5000/get_posts").then((res) => {
+        setPosts(res.data);
+      }).catch((err) => {
+        console.log(err)
+      })
     };
-   
-    
 
     fetchPosts();
+
+   
   }, []);
+
+  
 
   // Sort posts in ascending order based on the `createdAt` field
   const sortedPosts = [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -82,13 +137,21 @@ const BlogList = () => {
       <div className="container mt-5">
         <h2>Blog Posts</h2>
         <div className="row">
-          {sortedPosts.map((post) => (
+          {posts.map((post) => (
             <div className="col-md-4" key={post._id}>
               <div className="card mb-3">
+                {/* {post.image && ( */}
+                  <img
+                     src={`uploads\${post.image.slice(9)}`}
+                    // src={require('./images/${post.image}')}
+                    className="card-img-top"
+                    alt={post.title}
+                  />
+                {/* )} */}
                 <div className="card-body">
                   <h5 className="card-title">{post.title}</h5>
                   <p className="card-text">{post.content.substring(0, 100)}...</p>
-                  <p className="text-muted">By {post.user.name}</p>
+                  <p className="text-muted">By {post.user?.name || 'Unknown'}</p>
                 </div>
               </div>
             </div>
